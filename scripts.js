@@ -3,6 +3,24 @@ console.log("Rock Paper Scissors");
 let humanScore = 0;
 let computerScore = 0;
 
+const btnR = document.querySelector("#btnR");
+const btnP = document.querySelector("#btnP");
+const btnS = document.querySelector("#btnS");
+const score = document.querySelector("#score");
+
+score.textContent = `Human score: ${humanScore} | Computer score: ${computerScore}`;
+
+btnR.addEventListener("click", () =>{
+    playRound("rock",getComputerChoices());
+});
+btnP.addEventListener("click", ()=> {
+    playRound("paper",getComputerChoices());
+});
+btnS.addEventListener("click", ()=> {
+    playRound("scissors",getComputerChoices());
+});
+
+
 function getComputerChoices(){
     rand = Math.floor(Math.random()*3);
     switch(rand){
@@ -18,65 +36,72 @@ function getComputerChoices(){
     }
 }
 
-function getHumanChoices(){
-    let choice = prompt("Enter you choice");
-    return choice;
+
+function updateScore(humanScore,computerScore){
+    score.textContent = `Human score: ${humanScore} | Computer score: ${computerScore}`;
+}
+
+function checkWinner(){
+    if(humanScore>=5 || computerScore>=5){
+        if(humanScore>computerScore){
+            alert(`You Win! Your Score: ${humanScore}, Computer Score: ${computerScore}`);
+            location.reload();
+        }
+        else{
+            alert(`You Lose! Your Score: ${humanScore}, Computer Score: ${computerScore}`);
+            location.reload();
+        }
+    }
+    
 }
 
 function playRound(humanChoice, computerChoice){
-    humanChoice = getHumanChoices().toLowerCase();
-    computerChoice = getComputerChoices();
     if (humanChoice == "rock"){
         if(computerChoice == "rock"){
-            alert("Rock and Rock is a Draw");
+            updateScore(humanScore,computerScore);
+            checkWinner();
         }
         else if(computerChoice == "paper"){
-            alert("You Lose! Paper wins Rock");
             computerScore++;
+            updateScore(humanScore,computerScore);
+            checkWinner();
         }
         else if(computerChoice == "scissors"){
-            alert("You Win! Rock wins Scissors");
             humanScore++;
+            updateScore(humanScore,computerScore);
+            checkWinner();
         }
     }
     else if (humanChoice == "paper"){
         if(computerChoice == "rock"){
-            alert("You Win! Paper wins Rock");
             humanScore++;
+            updateScore(humanScore,computerScore);
+            checkWinner();
         }
         else if(computerChoice == "paper"){
-            alert("Paper and Paper is Draw");
+            updateScore(humanScore,computerScore);
+            checkWinner();
         }
         else if(computerChoice == "scissors"){
-            alert("You Lose! Scissors wins Paper");
             computerScore++;
+            updateScore(humanScore,computerScore);
+            checkWinner();
         }
     }
     else if (humanChoice == "scissors"){
         if(computerChoice == "rock"){
-            alert("You Lose! Rock wins Scissors");
             computerScore++;
+            updateScore(humanScore,computerScore);
+            checkWinner();
         }
         else if(computerChoice == "paper"){
-            alert("You Win! Paper wins Scissors");
             humanScore++;
+            updateScore(humanScore,computerScore);
+            checkWinner();
         }
         else if(computerChoice == "scissors"){
-            alert("Scissors and Scissors is a draw");
+            updateScore(humanScore,computerScore);
+            checkWinner();
         }
     }
 }
-
-function playGame(){
-    for(i=0;i<=4;i++){
-        playRound();
-    }
-    if(humanScore>computerScore){
-        alert(`You Win! Your Score: ${humanScore}, Computer Score: ${computerScore}`);
-    }
-    else{
-        alert(`You Lose! Your Score: ${humanScore}, Computer Score: ${computerScore}`)
-    }
-    
-}
-playGame();
